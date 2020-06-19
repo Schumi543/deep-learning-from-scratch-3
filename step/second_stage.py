@@ -31,9 +31,11 @@ class Variable:
 
 
 class Function:
-    def __call__(self, args: List[Variable]):
+    def __call__(self, *args):
         xs = [x.data for x in args]
-        ys = self.forward(xs)
+        ys = self.forward(*xs)
+        if not isinstance(ys, tuple):
+            ys = (ys,)
         outputs = [Variable(_as_array(y)) for y in ys]
 
         # memorize
@@ -42,7 +44,7 @@ class Function:
         self.args = args
         self.outputs = outputs
 
-        return outputs
+        return outputs if len(outputs) > 1 else outputs[0]
 
     def forward(self, xs):
         raise NotImplementedError
@@ -52,10 +54,14 @@ class Function:
 
 
 class Add(Function):
-    def forward(self, xs):
+    def forward(self, *xs):
         x0, x1 = xs
         y = x0 + x1
         return (y,)
+
+
+def add(x0, x1):
+    return Add()(x0, x1)
 
 
 def numerical_diff(f, x, eps=1e-4):
