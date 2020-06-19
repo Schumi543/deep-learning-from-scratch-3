@@ -81,14 +81,9 @@ class Square(Function):
         x = self.args[0].data
         return 2 * x * gy
 
+
 def square(x):
     return Square()(x)
-
-def numerical_diff(f, x, eps=1e-4):
-    y0 = f(Variable(_as_array(x.data - eps)))
-    y1 = f(Variable(_as_array(x.data + eps)))
-
-    return (y1.data - y0.data) / (2 * eps)
 
 
 def _as_array(x):
