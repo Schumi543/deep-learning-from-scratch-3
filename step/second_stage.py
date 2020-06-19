@@ -23,11 +23,16 @@ class Variable:
         funcs = [self.creator]
         while funcs:
             f = funcs.pop()
-            x, y = f.arg, f.output
-            x.grad = f.backward(y.grad)
+            gys = [output.grad for output in f.outputs]
+            gxs = f.backward(*gys)
+            if not isinstance(gxs, tuple):
+                gxs = (gxs,)
 
-            if x.creator is not None:
-                funcs.append(x.creator)
+            for x, gx in zip(f.args, gxs):
+                x.grad = gx
+
+                if x.creator is not None:
+                    funcs.append(x.creator)
 
 
 class Function:
@@ -59,10 +64,24 @@ class Add(Function):
         y = x0 + x1
         return (y,)
 
+    def backward(self, gy):
+        return gy, gy
+
 
 def add(x0, x1):
     return Add()(x0, x1)
 
+
+class Square(Function):
+    def forward(self, x):
+        return x ** 2
+
+    def backward(self, gy):
+        x = self.args[0].data
+        return 2 * x * gy
+
+def square(x):
+    return Square()(x)
 
 def numerical_diff(f, x, eps=1e-4):
     y0 = f(Variable(_as_array(x.data - eps)))
