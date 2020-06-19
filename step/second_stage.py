@@ -29,6 +29,8 @@ def as_variable(obj):
 
 
 class Variable:
+    __array_priority__ = 200
+
     # noinspection PyTypeChecker
     def __init__(self, data: np.ndarray, name=None):
         if data is not None:
@@ -151,10 +153,12 @@ class Add(Function):
 
 
 def add(x0, x1):
+    x1 = _as_array(x1)
     return Add()(x0, x1)
 
 
 Variable.__add__ = add
+Variable.__radd__ = add
 
 
 class Square(Function):
@@ -178,10 +182,12 @@ class Mul(Function):
 
 
 def mul(x0, x1):
+    x1 = _as_array(x1)
     return Mul()(x0, x1)
 
 
 Variable.__mul__ = mul
+Variable.__rmul__ = mul
 
 
 def square(x):

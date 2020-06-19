@@ -65,3 +65,10 @@ def test_as_variable():
     y = Variable(np.array(2.0)) + np.array(3.0)
     assert isinstance(y, Variable)
     assert y.data == 5
+
+
+def test_ops_with_float():
+    x = Variable(np.array(2.0))
+    y = 3.0 * x + 1.0
+    assert isinstance(y, Variable)
+    assert y.data == 7
