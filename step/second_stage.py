@@ -3,6 +3,7 @@ from typing import List
 
 
 class Variable:
+    # noinspection PyTypeChecker
     def __init__(self, data: np.ndarray):
         if data is not None:
             if not isinstance(data, np.ndarray):
