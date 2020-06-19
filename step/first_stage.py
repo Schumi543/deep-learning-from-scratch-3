@@ -60,6 +60,14 @@ class Exp(Function):
         return np.exp(x) * gy
 
 
+def square(x):
+    return Square()(x)
+
+
+def exp(x):
+    return Exp()(x)
+
+
 def numerical_diff(f, x, eps=1e-4):
     y0 = f(Variable(x.data - eps))
     y1 = f(Variable(x.data + eps))
