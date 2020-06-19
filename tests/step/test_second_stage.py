@@ -78,3 +78,12 @@ def test_neg():
     x = Variable(np.array(2.0))
     y = -x
     assert y.data == -2
+
+
+def test_sub():
+    x = Variable(np.array(2.0))
+    y1 = 2.0 - x
+    y2 = x - 1.0
+
+    assert y1.data == 0
+    assert y2.data == 1
