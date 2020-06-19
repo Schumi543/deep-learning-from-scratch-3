@@ -3,6 +3,10 @@ import numpy as np
 
 class Variable:
     def __init__(self, data: np.ndarray):
+        if data is not None:
+            if not isinstance(data, np.ndarray):
+                raise TypeError(f'{type(data)} is not supported')
+
         self.data: np.ndarray = data
         self.grad: np.ndarray = None
         self.creator: Function = None
@@ -29,7 +33,7 @@ class Function:
     def __call__(self, arg: Variable):
         x = arg.data
         y = self.forward(x)
-        output = Variable(y)
+        output = Variable(_as_array(y))
 
         # memorize
         output.set_creator(self)
@@ -43,6 +47,12 @@ class Function:
 
     def backward(self, gy):
         raise NotImplementedError
+
+    @staticmethod
+    def _as_array(x):
+        if np.isscalar(x):
+            return np.array(x)
+        return x
 
 
 class Square(Function):

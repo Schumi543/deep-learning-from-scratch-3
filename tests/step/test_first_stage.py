@@ -84,3 +84,9 @@ def test_backprop_3(setup_graph):
 
     y.backward()
     assert x.grad == pytest.approx(3.29744)
+
+
+def test_variable_type():
+    with pytest.raises(TypeError):
+        # noinspection PyTypeChecker
+        Variable(1.0)
