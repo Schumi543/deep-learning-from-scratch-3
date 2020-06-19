@@ -32,7 +32,7 @@ class Variable:
             if f not in seen_set:
                 funcs.append(f)
                 seen_set.add(f)
-                funcs.sort(key=lambda x:x.generation)
+                funcs.sort(key=lambda x: x.generation)
 
         add_func(self.creator)
 
