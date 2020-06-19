@@ -72,3 +72,9 @@ def test_ops_with_float():
     y = 3.0 * x + 1.0
     assert isinstance(y, Variable)
     assert y.data == 7
+
+
+def test_neg():
+    x = Variable(np.array(2.0))
+    y = -x
+    assert y.data == -2

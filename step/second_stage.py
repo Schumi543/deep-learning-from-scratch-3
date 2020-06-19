@@ -190,6 +190,21 @@ Variable.__mul__ = mul
 Variable.__rmul__ = mul
 
 
+class Neg(Function):
+    def forward(self, x):
+        return -x
+
+    def backward(self, gy):
+        return -gy
+
+
+def neg(x):
+    return Neg()(x)
+
+
+Variable.__neg__ = neg
+
+
 def square(x):
     return Square()(x)
 
