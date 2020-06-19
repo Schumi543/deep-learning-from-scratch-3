@@ -48,11 +48,6 @@ class Function:
     def backward(self, gy):
         raise NotImplementedError
 
-    @staticmethod
-    def _as_array(x):
-        if np.isscalar(x):
-            return np.array(x)
-        return x
 
 
 class Square(Function):
@@ -86,3 +81,9 @@ def numerical_diff(f, x, eps=1e-4):
     y1 = f(Variable(x.data + eps))
 
     return (y1.data - y0.data) / (2 * eps)
+
+
+def _as_array(x):
+    if np.isscalar(x):
+        return np.array(x)
+    return x
