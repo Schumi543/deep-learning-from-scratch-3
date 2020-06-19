@@ -49,3 +49,21 @@ def test_backward():
     x.grad = A.backward(a.grad)
 
     assert x.grad == pytest.approx(3.29744)
+
+
+def test_backprop():
+    A = Square()
+    B = Exp()
+    C = Square()
+
+    x = Variable(np.array(0.5))
+    a = A(x)
+    b = B(a)
+    y = C(b)
+
+    assert y.creator == C
+    assert y.creator.arg == b
+    assert y.creator.arg.creator == B
+    assert y.creator.arg.creator.arg == a
+    assert y.creator.arg.creator.arg.creator == A
+    assert y.creator.arg.creator.arg.creator.arg == x

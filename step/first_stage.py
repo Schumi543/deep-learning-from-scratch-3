@@ -5,6 +5,10 @@ class Variable:
     def __init__(self, data: np.ndarray):
         self.data: np.ndarray = data
         self.grad: np.ndarray
+        self.creator: Function
+
+    def set_creator(self, f):
+        self.creator = f
 
 
 class Function:
@@ -12,7 +16,12 @@ class Function:
         x = arg.data
         y = self.forward(x)
         output = Variable(y)
-        self.arg = arg  # memorize
+
+        # memorize
+        output.set_creator(self)
+        self.arg = arg
+        self.output = output
+
         return output
 
     def forward(self, x):
