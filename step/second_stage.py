@@ -12,16 +12,29 @@ class Variable:
         self.data: np.ndarray = data
         self.grad: np.ndarray = None
         self.creator: Function = None
+        self.generation: int = 0
 
     # noinspection PyAttributeOutsideInit
     def set_creator(self, f):
         self.creator = f
+        self.generation = f.generation + 1
 
     def backward(self):
         if self.grad is None:
             self.grad = np.ones_like(self.data)
 
-        funcs = [self.creator]
+        funcs = []
+        seen_set = set()
+
+        # FIXME priority queue may make it simpler
+        def add_func(f: Function):
+            if f not in seen_set:
+                funcs.append(f)
+                seen_set.add(f)
+                funcs.sort(key=lambda x:x.generation)
+
+        add_func(self.creator)
+
         while funcs:
             f = funcs.pop()
             gys = [output.grad for output in f.outputs]
@@ -36,7 +49,7 @@ class Variable:
                     x.grad = x.grad + gx
 
                 if x.creator is not None:
-                    funcs.append(x.creator)
+                    add_func(x.creator)
 
     def clear_grad(self):
         self.grad = None
@@ -49,6 +62,9 @@ class Function:
         if not isinstance(ys, tuple):
             ys = (ys,)
         outputs = [Variable(_as_array(y)) for y in ys]
+
+        # update generation
+        self.generation = max([x.generation for x in args])
 
         # memorize
         for output in outputs:

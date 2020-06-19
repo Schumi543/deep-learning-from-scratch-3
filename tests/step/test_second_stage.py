@@ -33,3 +33,13 @@ def test_gradient_step14():
     y.backward()
 
     assert x.grad == 3
+
+
+def test_complex_backward():
+    x = Variable(np.array(2.0))
+    a = square(x)
+    y = add(square(a), square(a))
+    y.backward()
+
+    assert y.data == 32
+    assert x.grad == 64
