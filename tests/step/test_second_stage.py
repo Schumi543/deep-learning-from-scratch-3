@@ -87,3 +87,10 @@ def test_sub():
 
     assert y1.data == 0
     assert y2.data == 1
+
+
+def test_pow():
+    x = Variable(np.array(2.0))
+    y = x ** 3
+
+    assert y.data == 8
