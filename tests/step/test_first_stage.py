@@ -35,8 +35,10 @@ def test_numerical_diff():
 
 
 def test_numerical_diff_composite(setup_graph):
-    A, B, C, x, a, b, y, f = setup_graph
+    def f(arg):
+        return square(exp(square(arg)))
 
+    x = Variable(np.array(0.5))
     assert numerical_diff(f, x) == pytest.approx(3.29744)
 
 
