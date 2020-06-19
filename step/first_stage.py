@@ -25,3 +25,10 @@ class Square(Function):
 class Exp(Function):
     def forward(self, x):
         return np.exp(x)
+
+
+def numerical_diff(f, x, eps=1e-4):
+    y0 = f(Variable(x.data - eps))
+    y1 = f(Variable(x.data + eps))
+
+    return (y1.data - y0.data) / (2 * eps)
