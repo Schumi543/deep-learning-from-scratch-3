@@ -4,12 +4,19 @@ import numpy as np
 class Variable:
     def __init__(self, data: np.ndarray):
         self.data: np.ndarray = data
-        self.grad: np.ndarray
-        self.creator: Function
+        self.grad: np.ndarray = None
+        self.creator: Function = None
 
     # noinspection PyAttributeOutsideInit
     def set_creator(self, f):
         self.creator = f
+
+    def backward(self):
+        f = self.creator
+        if f is not None:
+            x = f.arg
+            x.grad = f.backward(self.grad)
+            x.backward()
 
 
 class Function:

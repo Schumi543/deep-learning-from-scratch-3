@@ -78,3 +78,10 @@ def test_backprop_2(setup_graph):
     x.grad = A.backward(a.grad)
 
     assert x.grad == pytest.approx(3.29744)
+
+
+def test_backprop_3(setup_graph):
+    _, _, _, x, _, _, y, _ = setup_graph
+
+    y.backward()
+    assert x.grad == pytest.approx(3.29744)
