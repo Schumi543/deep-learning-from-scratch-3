@@ -4,13 +4,26 @@ from step.first_stage import *
 import numpy as np
 
 
-def test_composite_function():
+@pytest.fixture(scope="module")
+def setup_graph():
     A = Square()
     B = Exp()
     C = Square()
 
+    def f(arg):
+        return C(B(A(arg)))
+
     x = Variable(np.array(0.5))
-    y = C(B(A(x)))
+    a = A(x)
+    b = B(a)
+    y = C(b)
+    y.grad = np.array(1.0)
+
+    return A, B, C, x, a, b, y, f
+
+
+def test_composite_function(setup_graph):
+    A, B, C, x, a, b, y, f = setup_graph
 
     assert y.data == pytest.approx(1.64872)
 
@@ -22,28 +35,15 @@ def test_numerical_diff():
     assert numerical_diff(f, x) == pytest.approx(4.00000)
 
 
-def test_numerical_diff_composite():
-    A = Square()
-    B = Exp()
-    C = Square()
-
-    f = lambda x: C(B(A(x)))
-    x = Variable(np.array(0.5))
+def test_numerical_diff_composite(setup_graph):
+    A, B, C, x, a, b, y, f = setup_graph
 
     assert numerical_diff(f, x) == pytest.approx(3.29744)
 
 
-def test_backward():
-    A = Square()
-    B = Exp()
-    C = Square()
+def test_backward(setup_graph):
+    A, B, C, x, a, b, y, f = setup_graph
 
-    x = Variable(np.array(0.5))
-    a = A(x)
-    b = B(a)
-    y = C(b)
-
-    y.grad = np.array(1.0)
     b.grad = C.backward(y.grad)
     a.grad = B.backward(b.grad)
     x.grad = A.backward(a.grad)
@@ -51,15 +51,8 @@ def test_backward():
     assert x.grad == pytest.approx(3.29744)
 
 
-def test_backprop():
-    A = Square()
-    B = Exp()
-    C = Square()
-
-    x = Variable(np.array(0.5))
-    a = A(x)
-    b = B(a)
-    y = C(b)
+def test_backprop(setup_graph):
+    A, B, C, x, a, b, y, f = setup_graph
 
     assert y.creator == C
     assert y.creator.arg == b
