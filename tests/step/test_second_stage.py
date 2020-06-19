@@ -5,14 +5,14 @@ import numpy as np
 
 
 def test_add():
-    assert add(Variable(np.array(2)), Variable(np.array(3))).data == 5
+    assert (Variable(np.array(2)) + Variable(np.array(3))).data == 5
 
 
 def test_simple_backward():
     x = Variable(np.array(2.0))
     y = Variable(np.array(3.0))
 
-    z = add(square(x), square(y))
+    z = square(x) + square(y)
     z.backward()
 
     assert z.data == 13
@@ -22,14 +22,14 @@ def test_simple_backward():
 
 def test_gradient_step14():
     x = Variable(np.array(3.0))
-    y = add(x, x)
+    y = x + x
     y.backward()
 
     assert y.data == 6
     assert x.grad == 2
     x.clear_grad()  # teardown 1st tests
 
-    y = add(add(x, x), x)
+    y = (x + x) + x
     y.backward()
 
     assert x.grad == 3
@@ -38,7 +38,7 @@ def test_gradient_step14():
 def test_complex_backward():
     x = Variable(np.array(2.0))
     a = square(x)
-    y = add(square(a), square(a))
+    y = square(a) + square(a)
     y.backward()
 
     assert y.data == 32
