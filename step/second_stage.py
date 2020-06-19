@@ -24,15 +24,41 @@ def no_grad():
 
 class Variable:
     # noinspection PyTypeChecker
-    def __init__(self, data: np.ndarray):
+    def __init__(self, data: np.ndarray, name=None):
         if data is not None:
             if not isinstance(data, np.ndarray):
                 raise TypeError(f'{type(data)} is not supported')
 
         self.data: np.ndarray = data
+        self.name = name
         self.grad: np.ndarray = None
         self.creator: Function = None
         self.generation: int = 0
+
+    @property
+    def ndim(self):
+        return self.data.ndim
+
+    @property
+    def shape(self):
+        return self.data.shape
+
+    @property
+    def size(self):
+        return self.data.size
+
+    @property
+    def dtype(self):
+        return self.data.dtype
+
+    def __len__(self):
+        return len(self.data)
+
+    def __repr__(self):
+        if self.data is None:
+            return 'variable(None)'
+        p = str(self.data).replace('\n', '\n', + ' ' * 9)
+        return f'variable({p})'
 
     # noinspection PyAttributeOutsideInit
     def set_creator(self, f):
