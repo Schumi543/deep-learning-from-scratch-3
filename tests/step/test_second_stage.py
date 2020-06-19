@@ -18,3 +18,12 @@ def test_simple_backward():
     assert z.data == 13
     assert x.grad == 4
     assert y.grad == 6
+
+
+def test_gradient_step14():
+    x = Variable(np.array(3.0))
+    y = add(x, x)
+    y.backward()
+
+    assert y.data == 6
+    assert x.grad == 2
