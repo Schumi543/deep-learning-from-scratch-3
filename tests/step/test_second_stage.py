@@ -43,3 +43,19 @@ def test_complex_backward():
 
     assert y.data == 32
     assert x.grad == 64
+
+
+def test_variable_add():
+    a = Variable(np.array(3.0))
+    b = Variable(np.array(2.0))
+    y = a + b
+
+    assert y.data == 5
+
+
+def test_variable_mul():
+    a = Variable(np.array(3.0))
+    b = Variable(np.array(2.0))
+    y = a * b
+
+    assert y.data == 6

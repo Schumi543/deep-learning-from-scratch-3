@@ -60,6 +60,12 @@ class Variable:
         p = str(self.data).replace('\n', '\n', + ' ' * 9)
         return f'variable({p})'
 
+    def __mul__(self, other):
+        return mul(self, other)
+
+    def __add__(self, other):
+        return add(self, other)
+
     # noinspection PyAttributeOutsideInit
     def set_creator(self, f):
         self.creator = f
