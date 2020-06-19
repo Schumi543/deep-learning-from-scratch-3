@@ -19,6 +19,19 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+
+    - name: Cache py modules
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-py-modules
+      with:
+        path: ~/.cache
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/poetry.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
     - uses: actions/setup-python@v2
       with:
        python-version: '3.7'
