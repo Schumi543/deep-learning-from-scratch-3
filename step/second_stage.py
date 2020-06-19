@@ -38,6 +38,9 @@ class Variable:
                 if x.creator is not None:
                     funcs.append(x.creator)
 
+    def clear_grad(self):
+        self.grad = None
+
 
 class Function:
     def __call__(self, *args):

@@ -27,3 +27,9 @@ def test_gradient_step14():
 
     assert y.data == 6
     assert x.grad == 2
+    x.clear_grad()  # teardown 1st tests
+
+    y = add(add(x, x), x)
+    y.backward()
+
+    assert x.grad == 3
