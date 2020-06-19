@@ -17,7 +17,6 @@ def setup_graph():
     a = A(x)
     b = B(a)
     y = C(b)
-    y.grad = np.array(1.0)
 
     return A, B, C, x, a, b, y, f
 
