@@ -43,6 +43,7 @@ def test_numerical_diff_composite(setup_graph):
 def test_backward(setup_graph):
     A, B, C, x, a, b, y, f = setup_graph
 
+    y.grad = np.array(1.0)
     b.grad = C.backward(y.grad)
     a.grad = B.backward(b.grad)
     x.grad = A.backward(a.grad)
