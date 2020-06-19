@@ -7,6 +7,7 @@ class Variable:
         self.grad: np.ndarray
         self.creator: Function
 
+    # noinspection PyAttributeOutsideInit
     def set_creator(self, f):
         self.creator = f
 
