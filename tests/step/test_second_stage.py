@@ -59,3 +59,9 @@ def test_variable_mul():
     y = a * b
 
     assert y.data == 6
+
+
+def test_as_variable():
+    y = Variable(np.array(2.0)) + np.array(3.0)
+    assert isinstance(y, Variable)
+    assert y.data == 5

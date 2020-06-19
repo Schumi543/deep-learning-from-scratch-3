@@ -22,6 +22,12 @@ def no_grad():
     return using_config('enable_backprop', False)
 
 
+def as_variable(obj):
+    if isinstance(obj, Variable):
+        return obj
+    return Variable(obj)
+
+
 class Variable:
     # noinspection PyTypeChecker
     def __init__(self, data: np.ndarray, name=None):
@@ -107,6 +113,8 @@ class Variable:
 
 class Function:
     def __call__(self, *args):
+        args = [as_variable(arg) for arg in args]
+
         xs = [x.data for x in args]
         ys = self.forward(*xs)
         if not isinstance(ys, tuple):
