@@ -61,8 +61,8 @@ def test_neg():
 # noinspection PyTypeChecker
 def test_sub():
     x = Variable(np.array(2.0))
-    y1 = 2.0 - x
-    y2 = x - 1.0
+    y1: Variable = 2.0 - x
+    y2: Variable = x - 1.0
 
     assert y1.data == 0
     assert y2.data == 1
