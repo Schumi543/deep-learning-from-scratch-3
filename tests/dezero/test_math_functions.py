@@ -5,7 +5,7 @@ from dezero.math_functions import sphere, matyas, goldstein, sin
 import numpy as np
 
 
-def test_sphere_function():
+def test_sphere():
     x = Variable(np.array(1))
     y = Variable(np.array(1))
     z = sphere(x, y)
@@ -14,7 +14,7 @@ def test_sphere_function():
     assert (x.grad, y.grad) == (2, 2)
 
 
-def test_matyas_function():
+def test_matyas():
     x = Variable(np.array(1))
     y = Variable(np.array(1))
     z = matyas(x, y)
@@ -24,7 +24,7 @@ def test_matyas_function():
     assert y.grad == pytest.approx(0.04)
 
 
-def test_goldstein_function():
+def test_goldstein():
     x = Variable(np.array(1))
     y = Variable(np.array(1))
     z = goldstein(x, y)
