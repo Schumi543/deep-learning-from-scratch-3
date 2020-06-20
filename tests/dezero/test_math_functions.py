@@ -1,6 +1,6 @@
 import pytest
 from dezero import Variable
-from dezero.math_functions import sphere, matyas, goldstein, sin
+from dezero.math_functions import sphere, matyas, goldstein, sin, rosenbrock
 
 import numpy as np
 
@@ -41,3 +41,13 @@ def test_sin():
 
     assert y.data == pytest.approx(0.707106)
     assert x.grad == pytest.approx(0.707103)
+
+
+def test_rosenbrock():
+    x0 = Variable(np.array(0))
+    x1 = Variable(np.array(2))
+
+    y = rosenbrock(x0, x1)
+    y.backward()
+
+    assert (x0.grad, x1.grad) == (-2, 400)
