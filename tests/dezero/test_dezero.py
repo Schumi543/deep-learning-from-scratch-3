@@ -1,5 +1,5 @@
 import pytest
-from dezero import *
+from dezero import Variable
 from dezero.math_functions import sphere, matyas, goldstein
 
 import numpy as np
