@@ -1,9 +1,8 @@
-import pytest
+import numpy as np
+
 from dezero.core_simple import Variable
 # noinspection PyProtectedMember
 from dezero.utils import _dot_var, _dot_func
-
-import numpy as np
 
 
 def test__dot_var():
