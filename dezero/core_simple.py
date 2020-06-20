@@ -1,7 +1,7 @@
 import contextlib
-import numpy as np
-from typing import List
 import weakref
+
+import numpy as np
 
 
 class Config:
