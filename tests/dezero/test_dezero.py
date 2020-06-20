@@ -47,6 +47,7 @@ def test_as_variable():
 
 def test_ops_with_float():
     x = Variable(np.array(2.0))
+    # noinspection PyTypeChecker
     y = 3.0 * x + 1.0
     assert isinstance(y, Variable)
     assert y.data == 7
@@ -58,6 +59,7 @@ def test_neg():
     assert y.data == -2
 
 
+# noinspection PyTypeChecker
 def test_sub():
     x = Variable(np.array(2.0))
     y1 = 2.0 - x
@@ -69,6 +71,7 @@ def test_sub():
 
 def test_pow():
     x = Variable(np.array(2.0))
+    # noinspection PyTypeChecker
     y = x ** 3
 
     assert y.data == 8

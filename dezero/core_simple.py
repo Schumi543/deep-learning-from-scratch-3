@@ -61,11 +61,11 @@ class Variable:
         seen_set = set()
 
         # FIXME priority queue may make it simpler
-        def add_func(f: Function):
-            if f not in seen_set:
-                funcs.append(f)
-                seen_set.add(f)
-                funcs.sort(key=lambda x: x.generation)
+        def add_func(func: Function):
+            if func not in seen_set:
+                funcs.append(func)
+                seen_set.add(func)
+                funcs.sort(key=lambda e: e.generation)
 
         add_func(self.creator)
 
@@ -152,7 +152,8 @@ class Neg(Function):
 
 
 class Sub(Function):
-    def forward(self, x0, x1):
+    def forward(self, *xs):
+        x0, x1 = xs
         y = x0 - x1
         return y
 
@@ -161,7 +162,8 @@ class Sub(Function):
 
 
 class Div(Function):
-    def forward(self, x0, x1):
+    def forward(self, *xs):
+        x0, x1 = xs
         y = x0 / x1
         return y
 
