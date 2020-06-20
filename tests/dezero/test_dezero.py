@@ -1,6 +1,6 @@
 import pytest
 from dezero import Variable
-from dezero.math_functions import sphere, matyas, goldstein
+from dezero.math_functions import sphere, matyas, goldstein, sin
 
 import numpy as np
 
@@ -105,3 +105,12 @@ def test_goldstein_function():
 
     assert x.grad == -5376
     assert y.grad == 8064
+
+
+def test_sin():
+    x = Variable(np.array(np.pi / 4))
+    y = sin(x)
+    y.backward()
+
+    assert y.data == pytest.approx(0.707106)
+    assert x.grad == pytest.approx(0.707103)
