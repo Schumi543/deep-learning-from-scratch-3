@@ -7,7 +7,6 @@ from dezero.math_functions import goldstein
 if __name__ == '__main__':
     x = Variable(np.array(1))
     y = Variable(np.array(1))
-    # noinspection PyTypeChecker
     z = goldstein(x, y)
     z.backward()
 
