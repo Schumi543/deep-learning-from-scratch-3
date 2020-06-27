@@ -185,8 +185,9 @@ class Pow(Function):
         return y
 
     def backward(self, gy):
-        x = self.args[0]
+        x: Variable = self.args[0]
         c = self.c
+        # noinspection PyTypeChecker
         gx = c * x ** (c - 1) * gy
         return gx
 
