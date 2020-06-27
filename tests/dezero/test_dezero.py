@@ -76,3 +76,7 @@ def test_pow():
     assert y.data == 8
 
 
+def test_repr():
+    x = Variable(np.array(2.0))
+
+    assert x.__repr__() == 'variable(2.0)'

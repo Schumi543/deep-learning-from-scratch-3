@@ -45,7 +45,7 @@ class Variable:
     def __repr__(self):
         if self.data is None:
             return 'variable(None)'
-        p = str(self.data).replace('\n', '\n', + ' ' * 9)
+        p = str(self.data).replace('\n', '\n' + ' ' * 9)
         return f'variable({p})'
 
     # noinspection PyAttributeOutsideInit
