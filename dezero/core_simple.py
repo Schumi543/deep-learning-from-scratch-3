@@ -55,7 +55,7 @@ class Variable:
 
     def backward(self, retain_grad=False):
         if self.grad is None:
-            self.grad = Variable(np.ones_like(self.data))
+            self.grad = np.ones_like(self.data)
 
         funcs = []
         seen_set = set()
@@ -139,7 +139,7 @@ class Mul(Function):
         return y
 
     def backward(self, gy):
-        x0, x1 = self.args
+        x0, x1 = self.args[0].data, self.args[1].data
         return gy * x1, gy * x0
 
 
@@ -168,7 +168,7 @@ class Div(Function):
         return y
 
     def backward(self, gy):
-        x0, x1 = self.args
+        x0, x1 = self.args[0].data, self.args[1].data
         gx0 = gy / x1
         gx1 = gy * (-x0 / x1 ** 2)
         return gx0, gx1
@@ -183,7 +183,7 @@ class Pow(Function):
         return y
 
     def backward(self, gy):
-        x = self.args[0]
+        x = self.args[0].data
         c = self.c
         gx = c * x ** (c - 1) * gy
         return gx
