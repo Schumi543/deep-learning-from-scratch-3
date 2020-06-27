@@ -79,7 +79,7 @@ def test_pow():
 def test_repr():
     x = Variable(np.array(2.0))
 
-    assert x.__repr__() == 'variable(2.0)'
+    assert repr(x) == 'variable(2.0)'
 
 
 def test_2nd_floor_derivative():
