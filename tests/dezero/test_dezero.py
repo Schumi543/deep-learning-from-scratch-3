@@ -105,7 +105,6 @@ def test_newtons_method():
     iters = 10
 
     for i in range(iters):
-        # print(i, x)
         LOGGER.debug('{} {}'.format(i, x))
 
         y = f(x)
