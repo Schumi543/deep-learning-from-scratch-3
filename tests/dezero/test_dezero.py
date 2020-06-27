@@ -13,13 +13,13 @@ def test_gradient_step14():
     y.backward()
 
     assert y.data == 6
-    assert x.grad == 2
+    assert x.grad.data == 2
     x.clear_grad()  # teardown 1st tests
 
     y = (x + x) + x
     y.backward()
 
-    assert x.grad == 3
+    assert x.grad.data == 3
 
 
 def test_variable_add():

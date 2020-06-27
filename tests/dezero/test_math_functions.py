@@ -11,7 +11,7 @@ def test_sphere():
     z = sphere(x, y)
     z.backward()
 
-    assert (x.grad, y.grad) == (2, 2)
+    assert (x.grad.data, y.grad.data) == (2, 2)
 
 
 def test_matyas():
@@ -20,8 +20,8 @@ def test_matyas():
     z = matyas(x, y)
     z.backward()
 
-    assert x.grad == pytest.approx(0.04)
-    assert y.grad == pytest.approx(0.04)
+    assert x.grad.data == pytest.approx(0.04)
+    assert y.grad.data == pytest.approx(0.04)
 
 
 def test_goldstein():
@@ -30,8 +30,8 @@ def test_goldstein():
     z = goldstein(x, y)
     z.backward()
 
-    assert x.grad == -5376
-    assert y.grad == 8064
+    assert x.grad.data == -5376
+    assert y.grad.data == 8064
 
 
 def test_sin():
@@ -40,7 +40,7 @@ def test_sin():
     y.backward()
 
     assert y.data == pytest.approx(0.707106)
-    assert x.grad == pytest.approx(0.707103)
+    assert x.grad.data == pytest.approx(0.707103)
 
 
 def test_rosenbrock():
@@ -50,4 +50,4 @@ def test_rosenbrock():
     y = rosenbrock(x0, x1)
     y.backward()
 
-    assert (x0.grad, x1.grad) == (-2, 400)
+    assert (x0.grad.data, x1.grad.data) == (-2, 400)
