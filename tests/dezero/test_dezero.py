@@ -1,6 +1,9 @@
 import numpy as np
+import logging
 
 from dezero import Variable
+
+LOGGER = logging.getLogger(__name__)
 
 
 def test_add():
@@ -93,3 +96,27 @@ def test_2nd_floor_derivative():
     gx = x.grad
     gx.backward()
     assert x.grad.data == 68
+
+
+def test_newtons_method():
+    f = lambda t: t ** 4 - 2 * t ** 2
+
+    x = Variable(np.array(2.0))
+    iters = 10
+
+    for i in range(iters):
+        # print(i, x)
+        LOGGER.debug('{} {}'.format(i, x))
+
+        y = f(x)
+        x.clear_grad()
+        y.backward(create_graph=True)
+
+        gx = x.grad
+        x.clear_grad()
+        gx.backward()
+        gx2 = x.grad
+
+        x.data -= gx.data / gx2.data
+
+    assert x.data == 1
