@@ -1,6 +1,6 @@
 import pytest
 from dezero import Variable
-from dezero.math_functions import sphere, matyas, goldstein, sin, rosenbrock
+from dezero.functions import sphere, matyas, goldstein, sin, rosenbrock
 
 import numpy as np
 
