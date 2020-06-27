@@ -19,7 +19,7 @@ class Variable:
 
         self.data: np.ndarray = data
         self.name = name
-        self.grad: np.ndarray = None
+        self.grad: Variable = None
         self.creator: Function = None
         self.generation: int = 0
 
