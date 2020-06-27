@@ -1,9 +1,13 @@
 import pytest
-from dezero import Variable
-from dezero.functions import sphere, matyas, goldstein, sin, rosenbrock
 
+import logging
 import numpy as np
 
+from dezero import Variable
+from dezero.functions import sphere, matyas, goldstein, taylor_sin, rosenbrock, sin
+
+
+LOGGER = logging.getLogger(__name__)
 
 def test_sphere():
     x = Variable(np.array(1))
@@ -34,9 +38,9 @@ def test_goldstein():
     assert y.grad.data == 8064
 
 
-def test_sin():
+def test_taylor_sin():
     x = Variable(np.array(np.pi / 4))
-    y = sin(x)
+    y = taylor_sin(x)
     y.backward()
 
     assert y.data == pytest.approx(0.707106)
@@ -51,3 +55,17 @@ def test_rosenbrock():
     y.backward()
 
     assert (x0.grad.data, x1.grad.data) == (-2, 400)
+
+
+def test_higher_derivative_sin():
+    x = Variable(np.array(1))
+    y = sin(x)
+    y.backward(create_graph=True)
+
+    for i in range(3):
+        gx = x.grad
+        x.clear_grad()
+        gx.backward(create_graph=True)
+        LOGGER.debug('{} {}'.format(i, x.grad))
+
+    assert x.grad.data == pytest.approx(0.8414709)

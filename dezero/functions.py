@@ -1,4 +1,28 @@
 import math
+import numpy as np
+from dezero.core import Function
+
+
+class Sin(Function):
+    def forward(self, x):
+        y = np.sin(x)
+        return y
+
+    def backward(self, gy):
+        x, = self.args
+        gx = gy * cos(x)
+        return gx
+
+
+class Cos(Function):
+    def forward(self, x):
+        y = np.sin(x)
+        return y
+
+    def backward(self, gy):
+        x, = self.args
+        gx = gy * -sin(x)
+        return gx
 
 
 def sphere(x, y):
@@ -17,7 +41,15 @@ def goldstein(x, y):
     return z
 
 
-def sin(x, threshold=1e-4):
+def sin(x):
+    return Sin()(x)
+
+
+def cos(x):
+    return Cos()(x)
+
+
+def taylor_sin(x, threshold=1e-4):
     y = 0
     for i in range(100000):
         c = (-1) ** i / math.factorial(2 * i + 1)
