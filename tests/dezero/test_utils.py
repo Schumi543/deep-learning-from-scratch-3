@@ -1,6 +1,6 @@
 import numpy as np
 
-from dezero.core_simple import Variable
+from dezero import Variable
 # noinspection PyProtectedMember
 from dezero.utils import _dot_var, _dot_func
 
