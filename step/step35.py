@@ -1,12 +1,14 @@
 import numpy as np
 from dezero import Variable
 from dezero.utils import plot_dot_graph
-import dezero.functions as F
+import dezero.functions as f
+
+iterss = 0
 
 if __name__ == '__main__':
 
     x = Variable(np.array(1))
-    y = F.tanh(x)
+    y = f.tanh(x)
     x.name = 'x'
     y.name = 'y'
     y.backward(create_graph=True)

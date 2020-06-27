@@ -1,12 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from dezero import Variable
-import dezero.functions as F
+import dezero.functions as f
 
 if __name__ == '__main__':
 
     x = Variable(np.linspace(-7, 7, 200))
-    y = F.sin(x)
+    y = f.sin(x)
     y.backward(create_graph=True)
 
     logs = [y.data.flatten()]

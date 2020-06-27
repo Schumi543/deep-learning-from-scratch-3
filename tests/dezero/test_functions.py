@@ -6,8 +6,8 @@ import numpy as np
 from dezero import Variable
 from dezero.functions import sphere, matyas, goldstein, taylor_sin, rosenbrock, sin
 
-
 LOGGER = logging.getLogger(__name__)
+
 
 def test_sphere():
     x = Variable(np.array(1))
