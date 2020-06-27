@@ -16,7 +16,7 @@ class Sin(Function):
 
 class Cos(Function):
     def forward(self, x):
-        y = np.sin(x)
+        y = np.cos(x)
         return y
 
     def backward(self, gy):
