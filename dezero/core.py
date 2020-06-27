@@ -1,6 +1,7 @@
 import contextlib
 import weakref
 
+from heapq import heappush, heappop
 import numpy as np
 
 
@@ -60,17 +61,15 @@ class Variable:
         funcs = []
         seen_set = set()
 
-        # FIXME priority queue may make it simpler
         def add_func(func: Function):
             if func not in seen_set:
-                funcs.append(func)
+                heappush(funcs, func)
                 seen_set.add(func)
-                funcs.sort(key=lambda e: e.generation)
 
         add_func(self.creator)
 
         while funcs:
-            f = funcs.pop()
+            f = heappop(funcs)
             gys = [output().grad for output in f.outputs]
 
             with using_config('enable_backprop', create_graph):
@@ -116,6 +115,11 @@ class Function:
             self.outputs = [weakref.ref(output) for output in outputs]
 
         return outputs if len(outputs) > 1 else outputs[0]
+
+    def __lt__(self, other):
+        if not isinstance(other, Function):
+            return NotImplemented
+        return self.generation < other.generation
 
     def forward(self, xs):
         raise NotImplementedError

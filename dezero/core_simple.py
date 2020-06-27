@@ -60,7 +60,6 @@ class Variable:
         funcs = []
         seen_set = set()
 
-        # FIXME priority queue may make it simpler
         def add_func(func: Function):
             if func not in seen_set:
                 funcs.append(func)
