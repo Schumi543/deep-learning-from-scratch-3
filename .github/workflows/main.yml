@@ -39,3 +39,12 @@ jobs:
 
     - name: Run pytest
       run: poetry run pytest
+
+  
+    - uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        fields: repo,message,commit,action,workflow,job,took
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+      if: always() # Pick up events even if the job fails or is canceled.
