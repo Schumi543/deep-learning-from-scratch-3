@@ -80,3 +80,16 @@ def test_repr():
     x = Variable(np.array(2.0))
 
     assert x.__repr__() == 'variable(2.0)'
+
+
+def test_2nd_floor_derivative():
+    f = lambda t: t ** 4 - 2 * t ** 2
+
+    x = Variable(np.array(2))
+    y = f(x)
+    y.backward(create_graph=True)
+    assert x.grad.data == 24
+
+    gx = x.grad
+    gx.backward()
+    assert x.grad.data == 68
